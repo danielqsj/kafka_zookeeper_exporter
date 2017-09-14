@@ -31,10 +31,11 @@ var (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(newCollector(*zookeeper, *zkChroot, []string{}))
+	log.Infoln("Zookeeper address", *zookeeper)
+	log.Infoln("Zookeeper chroot", *zkChroot)
+	prometheus.DefaultRegisterer.MustRegister(newCollector(*zookeeper, *zkChroot, []string{}))
 
-	h := promhttp.HandlerFor(registry, promhttp.HandlerOpts{})
+	h := promhttp.HandlerFor(prometheus.DefaultRegisterer, promhttp.HandlerOpts{})
 	h.ServeHTTP(w, r)
 }
 
