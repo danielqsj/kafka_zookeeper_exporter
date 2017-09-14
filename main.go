@@ -48,5 +48,5 @@ func main() {
 	log.Infoln("Zookeeper chroot", *zkChroot)
 	prometheus.DefaultRegisterer.MustRegister(newCollector(*zookeeper, *zkChroot, []string{}))
 
-	log.Fatal(http.ListenAndServe(c.String("listen"), promhttp.Handler()))
+	log.Fatal(http.ListenAndServe(*listenAddress, promhttp.Handler()))
 }
